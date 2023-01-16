@@ -1,3 +1,21 @@
+<<<<<<< HEAD
+=======
+node_modules/
+.expo/
+dist/
+npm-debug.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+web-build/
+
+# macOS
+.DS_Store
+
+>>>>>>> 9133945bd78ff3d50bf84a706e549d2e411d81ed
 # Created by https://www.toptal.com/developers/gitignore/api/reactnative,node
 # Edit at https://www.toptal.com/developers/gitignore?templates=reactnative,node
 
@@ -336,6 +354,7 @@ google-services.json
 *.hprof
 
 # End of https://www.toptal.com/developers/gitignore/api/reactnative,node
+<<<<<<< HEAD
 node_modules/
 .expo/
 dist/
@@ -350,3 +369,5 @@ web-build/
 
 # macOS
 .DS_Store
+=======
+>>>>>>> 9133945bd78ff3d50bf84a706e549d2e411d81ed
