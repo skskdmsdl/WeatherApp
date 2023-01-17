@@ -1,11 +1,21 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { React } from 'react';
+import { View, Text, StyleSheet } from 'react-native';
 
 export default function App() {
   return (
+    // views는 기본적으로 Flex Container임
+    // RN의 Flex Direction의 기본값은 Column
+    // RN의 사이즈를 줄때는 반응형을 생각해야함(비율을 생각하기)
     <View style={styles.container}>
-      <Text style={styles.text}>Hello</Text>
-      <StatusBar style="auto" />
+      <View style={styles.city}>
+        <Text style={styles.cityName}>Seoul</Text>
+      </View>
+      <View style={styles.weather}>
+        <View style={styles.day}>
+          <Text style={styles.temp}>27</Text>
+          <Text style={styles.description}>Sunny</Text>
+        </View>
+      </View>
     </View>
   );
 }
@@ -13,12 +23,30 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#839ACC",
   },
-  text: {
-    fontSize: 28,
-    color: "red",
-  }
+  city: {
+    flex: 1.5,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  cityName: {
+    fontSize: 65,
+    fontWeight: "500",
+  },
+  weather: {
+    flex: 3,
+  },
+  day: {
+    flex: 1,
+    alignItems: "center",
+  },
+  temp: {
+    marginTop: 50,
+    fontSize: 168,
+  },
+  description: {
+    marginTop: -30,
+    fontSize: 50,
+  },
 });
