@@ -1,12 +1,16 @@
 import React, { useState, useEffect} from 'react';
-import { View, Text, Dimensions, StyleSheet, ScrollView } from 'react-native';
-
+import { View, Text, Dimensions, StyleSheet, ScrollView, ActivityIndicator } from 'react-native';
 import * as Location from 'expo-location';
+import { Fontisto } from "@expo/vector-icons";
 
 // const { height, width } = Dimensions.get("window");
 const { width:SCREEN_WIDTH } = Dimensions.get("window");
 
 const API_KEY = "de0decc5434a828b3c00ea32467a6148";
+
+const icons = {
+  "Clouds": "cloudy"
+}
 
 export default function App() {
   const [city, setCity] = useState("Loading...");
@@ -27,9 +31,10 @@ export default function App() {
       { useGoogleMaps: false }
     );
     setCity(location[0].street);
-    const response = await fetch(`https://api.openweathermap.org/data/3.0/onecall?lat=${latitude}&lon=${longitude}&exclude=alerts&appid=${API_KEY}`);
+    const response = await fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&appid=${API_KEY}&units=metric`);
+    // const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${API_KEY}&units=metric`);
     const json = await response.json();
-    console.log(json);
+    setDays(json.daily);
   };
   useEffect(() => {
     getWeather();
@@ -49,22 +54,41 @@ export default function App() {
         showsHorizontalScrollIndicator={false}
         contentontainerstyle={styles.weather}
       >
-        <View style={styles.day}>
-          <Text style={styles.temp}>27</Text>
-          <Text style={styles.description}>Sunny</Text>
-        </View>
-        <View style={styles.day}>
-          <Text style={styles.temp}>27</Text>
-          <Text style={styles.description}>Sunny</Text>
-        </View>
-        <View style={styles.day}>
-          <Text style={styles.temp}>27</Text>
-          <Text style={styles.description}>Sunny</Text>
-        </View>
-        <View style={styles.day}>
-          <Text style={styles.temp}>27</Text>
-          <Text style={styles.description}>Sunny</Text>
-        </View>
+        {days?.length === 0 ? (
+          <View style={styles.day}>
+            <ActivityIndicator 
+              color="white"
+              style={{ marginTop: 10 }}
+              size="large" 
+            />
+          </View>
+        ) : ( 
+          days?.map((day, index) => 
+            <View key={index} style={styles.day}>
+              <View 
+                style={{
+                  flexDirection: "row", 
+                  alignItems: "center", 
+                  width: "100%",
+                  justifyContent: "space-between",
+                }}>
+                <Text style={styles.temp}>
+                  {parseFloat(day.temp.day).toFixed(1)}
+                </Text>
+                <Fontisto name="cloudy" size={68} color="white" />
+              </View>
+              
+              <Text style={styles.temp}>
+                {parseFloat(day.temp.day).toFixed(1)}
+              </Text>
+              <Text style={styles.temp}>
+                {parseFloat(day.temp.day).toFixed(1)}
+              </Text>
+              <Text style={styles.description}>{day.weather[0].main}</Text>
+              <Text style={styles.tinyText}>{day.weather[0].description}</Text>
+            </View>
+          )
+        )}
       </ScrollView>
     </View>
   );
@@ -97,5 +121,8 @@ const styles = StyleSheet.create({
   description: {
     marginTop: -30,
     fontSize: 50,
+  },
+  tinyText: {
+    fontSize: 20,
   },
 });
